@@ -1,3 +1,4 @@
+import Attack from "./attack.js";
 export default class Player {
     constructor(x, y) {
 
@@ -18,7 +19,7 @@ export default class Player {
     this.onGround = true;
     this.direction = 1;
     this.health = 100;
-
+    this.attack = null;
 }
 
     draw(ctx) {
@@ -60,6 +61,11 @@ export default class Player {
     ctx.fill();
 
     ctx.restore();
+    if(this.attack){
+
+    this.attack.draw(ctx);
+
+     }
 }
    update(input, canvasWidth) {
 
@@ -68,12 +74,12 @@ export default class Player {
     if (input.isPressed("ArrowRight")) {
     this.x += speed;
     this.direction = 1;
-}
+     } 
 
-if (input.isPressed("ArrowLeft")) {
+     if (input.isPressed("ArrowLeft")) {
     this.x -= speed;
     this.direction = -1;
-}
+    }
 
     // Evita salir por la izquierda
     if (this.x < 0) {
@@ -90,25 +96,34 @@ if (input.isPressed("ArrowLeft")) {
 
     this.onGround = false;
     }
-    if (input.isPressed("Space") && this.onGround) {
+   
+    this.velocityY += this.gravity;
 
-    this.velocityY = this.jumpForce;
+    this.y += this.velocityY;
 
-    this.onGround = false;
-
-}
-
-this.velocityY += this.gravity;
-
-this.y += this.velocityY;
-
-if (this.y >= this.ground) {
+    if (this.y >= this.ground) {
 
     this.y = this.ground;
 
     this.velocityY = 0;
 
     this.onGround = true;
+
+     }
+     if (input.isPressed("KeyX") && this.attack === null) {
+
+      this.attack = new Attack(this);
+
+      }
+      if(this.attack){
+
+      this.attack.update();
+
+      if(!this.attack.active){
+
+        this.attack = null;
+
+       }
 
      }
 
@@ -121,7 +136,6 @@ if (this.y >= this.ground) {
 
         this.health = 0;
 
+      }
     }
-
-   }
 }

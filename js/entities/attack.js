@@ -9,7 +9,9 @@ export default class Attack {
 
         this.active = true;
 
-        this.duration = 10;
+        this.duration = 15;
+
+        this.hasHit = false;
 
         this.player = player;
 
