@@ -17,6 +17,7 @@ export default class Player {
 
     this.onGround = true;
     this.direction = 1;
+    this.health = 100;
 
 }
 
@@ -109,7 +110,18 @@ if (this.y >= this.ground) {
 
     this.onGround = true;
 
-}
+     }
+
+   }
+   takeDamage(amount){
+
+    this.health -= amount;
+
+    if(this.health < 0){
+
+        this.health = 0;
+
+    }
 
    }
 }
