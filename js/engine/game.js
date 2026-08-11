@@ -68,45 +68,75 @@ this.enemyHealthBar = new HealthBar(
             this.canvas.width
         );
 
-        this.enemy.update();
+        this.enemy.update(this.player);
 
 
-        // Colisiones
+// Colisiones
 
-        if(this.player.attack){
+// ATAQUE DE MOCHI CONTRA NUBE
 
-            if(
-                checkCollision(
-                    this.player.attack.hitbox,
-                    this.enemy
-                )
-            ){
+if (this.player.attack) {
 
-                if(!this.player.attack.hasHit){
+    if (
+        checkCollision(
+            this.player.attack.hitbox,
+            this.enemy
+        )
+    ) {
 
-                const knockbackDirection =
+        if (!this.player.attack.hasHit) {
+
+            const knockbackDirection =
                 this.player.x < this.enemy.x ? 1 : -1;
 
-                this.enemy.takeDamage(
+            this.enemy.takeDamage(
                 this.player.attack.damage,
-                 12,
-                 knockbackDirection
-                  );
+                12,
+                knockbackDirection
+            );
 
+            this.player.attack.hasHit = true;
 
-this.player.attack.hasHit = true;
-
-console.log("Nube recibió daño");
-
-                this.player.attack.hasHit = true;
-
-                console.log("Nube recibió daño");
-
-            }
+            console.log("Nube recibió daño");
 
         }
 
     }
+
+}
+
+
+// ATAQUE DE NUBE CONTRA MOCHI
+
+if (this.enemy.attack) {
+
+    if (
+        checkCollision(
+            this.enemy.attack.hitbox,
+            this.player
+        )
+    ) {
+
+        if (!this.enemy.attack.hasHit) {
+
+            const knockbackDirection =
+                this.enemy.x < this.player.x ? 1 : -1;
+
+            this.player.takeDamage(
+                this.enemy.attack.damage,
+                12,
+                knockbackDirection
+            );
+
+            this.enemy.attack.hasHit = true;
+
+            console.log("Mochi recibió daño");
+
+        }
+
+    }
+
+}
         // Dibujar personajes
 
         this.player.draw(this.ctx);

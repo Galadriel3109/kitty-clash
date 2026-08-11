@@ -1,28 +1,56 @@
 export default class Attack {
 
-    constructor(player) {
+    constructor(owner) {
+
+        this.owner = owner;
 
         this.width = 40;
         this.height = 30;
 
         this.damage = 10;
 
-        this.active = true;
+        this.speed = 8;
 
-        this.duration = 15;
+        this.active = true;
 
         this.hasHit = false;
 
-        this.player = player;
+        this.life = 10;
+
+        this.hitbox = {
+            x: 0,
+            y: 0,
+            width: this.width,
+            height: this.height
+        };
 
     }
 
 
     update() {
 
-        this.duration--;
+        // La posición del ataque depende
+        // de quién lo está realizando
 
-        if (this.duration <= 0) {
+        if (this.owner.direction === 1) {
+
+            this.hitbox.x =
+                this.owner.x + this.owner.width;
+
+        } else {
+
+            this.hitbox.x =
+                this.owner.x - this.width;
+
+        }
+
+        this.hitbox.y =
+            this.owner.y + 20;
+
+
+        this.life--;
+
+        if (this.life <= 0) {
 
             this.active = false;
 
@@ -31,36 +59,19 @@ export default class Attack {
     }
 
 
-    get hitbox() {
-
-        return {
-
-            x: this.player.x + this.player.width,
-
-            y: this.player.y + 20,
-
-            width: this.width,
-
-            height: this.height
-
-        };
-
-    }
-
-
     draw(ctx) {
 
-        const box = this.hitbox;
+        if (!this.active) {
+            return;
+        }
 
-
-        ctx.fillStyle = "#ffcc00";
-
+        ctx.fillStyle = "#FFD700";
 
         ctx.fillRect(
-            box.x,
-            box.y,
-            box.width,
-            box.height
+            this.hitbox.x,
+            this.hitbox.y,
+            this.hitbox.width,
+            this.hitbox.height
         );
 
     }
