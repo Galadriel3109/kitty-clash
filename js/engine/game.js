@@ -2,6 +2,7 @@ import Player from "../entities/player.js";
 import Input from "./input.js";
 import Enemy from "../entities/enemy.js";
 import { checkCollision } from "./collision.js";
+import HealthBar from "../ui/healthbar.js";
 
 export default class Game {
 
@@ -19,6 +20,19 @@ export default class Game {
         this.player = new Player(150,350);
 
         this.enemy = new Enemy(700,350);
+        this.playerHealthBar = new HealthBar(
+    50,
+    30,
+    300,
+    30
+);
+
+this.enemyHealthBar = new HealthBar(
+    610,
+    30,
+    300,
+    30
+);
 
     }
 
@@ -101,7 +115,35 @@ export default class Game {
             700,
             50
         );
+         
+        this.ctx.fillStyle = "#000";
+        this.ctx.font = "18px Arial";
+
+        this.ctx.fillText(
+        "MOCHI",
+         50,
+         22
+        );
+
+        this.ctx.fillText(
+        "NUBE",
+        610,
+        22
+        );
+
+        this.playerHealthBar.draw(
+        this.ctx,
+        this.player.health,
+        100
+        );
+
+        this.enemyHealthBar.draw(
+        this.ctx,
+        this.enemy.health,
+        100
+        );
 
     }
+
 
 }
