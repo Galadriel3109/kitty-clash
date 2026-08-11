@@ -20,6 +20,8 @@ export default class Game {
         this.player = new Player(150,350);
 
         this.enemy = new Enemy(700,350);
+        this.gameOver = false;
+        this.winner = null;
         this.playerHealthBar = new HealthBar(
     50,
     30,
@@ -39,6 +41,11 @@ this.enemyHealthBar = new HealthBar(
 
     draw(){
 
+        if (this.gameOver && this.input.isPressed("KeyR")) {
+
+    this.restart();
+
+}
         // Fondo
         this.ctx.fillStyle = "#87CEEB";
 
@@ -135,6 +142,25 @@ if (this.enemy.attack) {
         }
 
     }
+    // Comprobar fin del juego
+
+if (!this.gameOver) {
+
+    if (this.enemy.health <= 0) {
+
+        this.gameOver = true;
+        this.winner = "Mochi";
+
+    }
+
+    if (this.player.health <= 0) {
+
+        this.gameOver = true;
+        this.winner = "Nube";
+
+    }
+
+}
 
 }
         // Dibujar personajes
@@ -182,8 +208,52 @@ if (this.enemy.attack) {
         this.enemy.health,
         100
         );
+        if (this.gameOver) {
+
+    this.ctx.fillStyle = "rgba(0, 0, 0, 0.7)";
+
+    this.ctx.fillRect(
+        0,
+        0,
+        this.canvas.width,
+        this.canvas.height
+    );
+
+    this.ctx.fillStyle = "#FFFFFF";
+
+    this.ctx.font = "50px Arial";
+
+    this.ctx.textAlign = "center";
+
+    this.ctx.fillText(
+        this.winner + " GANA!",
+        this.canvas.width / 2,
+        250
+    );
+
+    this.ctx.font = "25px Arial";
+
+    this.ctx.fillText(
+        "Presiona R para jugar otra vez",
+        this.canvas.width / 2,
+        300
+    );
+
+    this.ctx.textAlign = "left";
+
+}
 
     }
+restart() {
 
+    this.player = new Player(150, 350);
+
+    this.enemy = new Enemy(700, 350);
+
+    this.gameOver = false;
+
+    this.winner = null;
+
+}
 
 }
