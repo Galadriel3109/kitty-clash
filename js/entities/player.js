@@ -9,7 +9,7 @@ export default class Player {
     this.height = 70;
 
     this.color = "#FFFFFF";
-
+    this.velocityX = 0;
     this.velocityY = 0;
     this.gravity = 0.8;
     this.jumpForce = -15;
@@ -80,6 +80,8 @@ export default class Player {
     this.x -= speed;
     this.direction = -1;
     }
+    this.x += this.velocityX;
+    this.velocityX *= 0.8;
 
     // Evita salir por la izquierda
     if (this.x < 0) {
@@ -128,7 +130,7 @@ export default class Player {
      }
 
    }
-   takeDamage(amount){
+takeDamage(amount, knockback = 0, direction = 1){
 
     this.health -= amount;
 
@@ -136,6 +138,9 @@ export default class Player {
 
         this.health = 0;
 
-      }
     }
+
+    this.velocityX = knockback * direction;
+
+ }
 }

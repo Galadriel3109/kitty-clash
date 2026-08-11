@@ -84,9 +84,19 @@ this.enemyHealthBar = new HealthBar(
 
                 if(!this.player.attack.hasHit){
 
+                const knockbackDirection =
+                this.player.x < this.enemy.x ? 1 : -1;
+
                 this.enemy.takeDamage(
-                this.player.attack.damage
-                     );
+                this.player.attack.damage,
+                 12,
+                 knockbackDirection
+                  );
+
+
+this.player.attack.hasHit = true;
+
+console.log("Nube recibió daño");
 
                 this.player.attack.hasHit = true;
 
