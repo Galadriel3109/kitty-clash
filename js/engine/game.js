@@ -3,6 +3,8 @@ import Input from "./input.js";
 import Enemy from "../entities/enemy.js";
 import { checkCollision } from "./collision.js";
 import HealthBar from "../ui/healthbar.js";
+import Background from "../environment/background.js";
+import HitEffect from "../effects/hitEffect.js";
 
 export default class Game {
 
@@ -20,6 +22,12 @@ export default class Game {
         this.player = new Player(150,350);
 
         this.enemy = new Enemy(700,350);
+
+         this.background = new Background(
+         this.canvas.width,
+         this.canvas.height
+         );
+         this.hitEffects = [];
         this.gameOver = false;
         this.winner = null;
         this.playerHealthBar = new HealthBar(
@@ -46,26 +54,9 @@ this.enemyHealthBar = new HealthBar(
     this.restart();
 
 }
-        // Fondo
-        this.ctx.fillStyle = "#87CEEB";
+     this.background.update();
 
-        this.ctx.fillRect(
-            0,
-            0,
-            this.canvas.width,
-            this.canvas.height
-        );
-
-
-        // Suelo
-        this.ctx.fillStyle = "#5C913B";
-
-        this.ctx.fillRect(
-            0,
-            420,
-            this.canvas.width,
-            120
-        );
+this.background.draw(this.ctx);
 
 
         // Actualizar personajes
@@ -136,13 +127,26 @@ if (this.enemy.attack) {
             );
 
             this.enemy.attack.hasHit = true;
+            this.hitEffects.push(
+            new HitEffect(
+            this.enemy.x + this.enemy.width / 2,
+            this.enemy.y + this.enemy.height / 2
+    )
+);
 
             console.log("Mochi recibió daño");
 
         }
 
     }
-    // Comprobar fin del juego
+    
+
+}
+
+
+// -------------------------
+// COMPROBAR FIN DEL JUEGO
+// -------------------------
 
 if (!this.gameOver) {
 
@@ -161,15 +165,31 @@ if (!this.gameOver) {
     }
 
 }
+// -------------------------
+// EFECTOS DE IMPACTO
+// -------------------------
+
+for (const effect of this.hitEffects) {
+
+    effect.update();
 
 }
+
+        this.hitEffects =
+        this.hitEffects.filter(
+        effect => effect.active
+         );
         // Dibujar personajes
 
         this.player.draw(this.ctx);
 
         this.enemy.draw(this.ctx);
 
+        for (const effect of this.hitEffects) {
 
+        effect.draw(this.ctx);
+
+        }
         // Vida de Nube
 
         this.ctx.fillStyle = "#000";

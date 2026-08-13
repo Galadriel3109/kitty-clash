@@ -9,8 +9,6 @@ export default class Attack {
 
         this.damage = 10;
 
-        this.speed = 8;
-
         this.active = true;
 
         this.hasHit = false;
@@ -28,9 +26,6 @@ export default class Attack {
 
 
     update() {
-
-        // La posición del ataque depende
-        // de quién lo está realizando
 
         if (this.owner.direction === 1) {
 
@@ -62,17 +57,129 @@ export default class Attack {
     draw(ctx) {
 
         if (!this.active) {
+
             return;
+
         }
 
-        ctx.fillStyle = "#FFD700";
 
-        ctx.fillRect(
-            this.hitbox.x,
-            this.hitbox.y,
-            this.hitbox.width,
-            this.hitbox.height
+        // -------------------------
+        // PATITA
+        // -------------------------
+
+        ctx.fillStyle = "#FFFFFF";
+
+        ctx.beginPath();
+
+        ctx.arc(
+            this.hitbox.x + this.width / 2,
+            this.hitbox.y + 12,
+            13,
+            0,
+            Math.PI * 2
         );
+
+        ctx.fill();
+
+
+        // -------------------------
+        // ALMOHADILLA
+        // -------------------------
+
+        ctx.fillStyle = "#ffb6c1";
+
+        ctx.beginPath();
+
+        ctx.arc(
+            this.hitbox.x + this.width / 2,
+            this.hitbox.y + 15,
+            5,
+            0,
+            Math.PI * 2
+        );
+
+        ctx.fill();
+
+
+        // -------------------------
+        // DEDITOS
+        // -------------------------
+
+        ctx.beginPath();
+
+        ctx.arc(
+            this.hitbox.x + 10,
+            this.hitbox.y + 5,
+            4,
+            0,
+            Math.PI * 2
+        );
+
+        ctx.fill();
+
+
+        ctx.beginPath();
+
+        ctx.arc(
+            this.hitbox.x + 20,
+            this.hitbox.y + 2,
+            4,
+            0,
+            Math.PI * 2
+        );
+
+        ctx.fill();
+
+
+        ctx.beginPath();
+
+        ctx.arc(
+            this.hitbox.x + 30,
+            this.hitbox.y + 5,
+            4,
+            0,
+            Math.PI * 2
+        );
+
+        ctx.fill();
+
+
+        // -------------------------
+        // DESTELLO
+        // -------------------------
+
+        ctx.strokeStyle = "#FFD700";
+
+        ctx.lineWidth = 3;
+
+        ctx.beginPath();
+
+        ctx.moveTo(
+            this.hitbox.x - 5,
+            this.hitbox.y + 5
+        );
+
+        ctx.lineTo(
+            this.hitbox.x - 12,
+            this.hitbox.y - 5
+        );
+
+        ctx.stroke();
+
+
+        ctx.beginPath();
+
+        ctx.moveTo(
+            this.hitbox.x + this.width + 5,
+            this.hitbox.y + 5
+        );
+
+        ctx.lineTo(
+            this.hitbox.x + this.width + 12,
+            this.hitbox.y - 5
+        );
+
+        ctx.stroke();
 
     }
 
